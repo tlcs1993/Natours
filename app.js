@@ -2,25 +2,24 @@ const fs = require('fs');
 const express = require('express');
 
 const app = express();
-
 app.use(express.json()); // Middleware that allows some properties on the request.
 
 // Read the file with the tours, converts to a javascript object and assign to the const 'tours'.
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
-/* ***** READ ***** */
+/* FUNCTIONS */
 
-app.get('/api/v1/tours', (req, res) => {
+const getAllTours = (req, res) => {
     res.status(200).json({
         status: 'success',
         results: tours.length,
         data: {
             tours: tours
         }
-    })
-});
+    });
+}
 
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTour = (req, res) => {
     console.log(req.params);
 
     // Recebe o parâmetro e guarda na variável.
@@ -43,11 +42,9 @@ app.get('/api/v1/tours/:id', (req, res) => {
             tours: tour
         }
     });
-});
+}
 
-/* ***** CREATE ***** */
-
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
     // console.log(req.body);
     const newId = tours[tours.length - 1].id + 1;
     const newTour = Object.assign({ id: newId }, req.body);
@@ -62,11 +59,9 @@ app.post('/api/v1/tours', (req, res) => {
             }
         });
     });
-});
+}
 
-/* ***** UPDATE ***** */
-
-app.patch('/api/v1/tours/:id', (req, res) => {
+const updateTour = (req, res) => {
     if (req.params.id * 1 > tours.length) {
         return res.status(404).json({
             status: 'fail',
@@ -80,11 +75,9 @@ app.patch('/api/v1/tours/:id', (req, res) => {
             tour: '<Updated tour here!>'
         }
     })
-});
+}
 
-/* ***** DELETE ***** */
-
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
     if (req.params.id * 1 > tours.length) {
         return res.status(404).json({
             status: 'fail',
@@ -96,7 +89,31 @@ app.delete('/api/v1/tours/:id', (req, res) => {
         status: 'success',
         data: null
     })
-});
+}
+
+/* CRUD */
+
+    /* ***** READ ***** */
+
+// app.get('/api/v1/tours', getAllTours);
+// app.get('/api/v1/tours/:id', getTour);
+
+    /* ***** CREATE ***** */
+
+// app.post('/api/v1/tours', createTour);
+
+    /* ***** UPDATE ***** */
+
+// app.patch('/api/v1/tours/:id', updateTour);
+
+    /* ***** DELETE ***** */
+
+// app.delete('/api/v1/tours/:id', deleteTour);
+
+app.route('/api/v1/tours').get(getAllTours).post(createTour);
+app.route('/api/v1/tours/:id').get(getTour).patch(updateTour).delete(deleteTour);
+
+/* PORT CONFIG */
 
 const port = 3000;
 
