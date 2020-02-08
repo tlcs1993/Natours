@@ -5,16 +5,10 @@ const app = express();
 
 app.use(express.json()); // Middleware that allows some properties on the request.
 
-/* app.get('/', (req, res) => {
-    res.status(200).json({message: 'Hello from the server side!', app: 'Natours'});
-});
-
-app.post('/', (req, res) => {
-    res.status(200).send('You can post to this endpoint...');
-}); */
-
 // Read the file with the tours, converts to a javascript object and assign to the const 'tours'.
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
+
+/* ***** READ ***** */
 
 app.get('/api/v1/tours', (req, res) => {
     res.status(200).json({
@@ -51,6 +45,8 @@ app.get('/api/v1/tours/:id', (req, res) => {
     });
 });
 
+/* ***** CREATE ***** */
+
 app.post('/api/v1/tours', (req, res) => {
     // console.log(req.body);
     const newId = tours[tours.length - 1].id + 1;
@@ -68,6 +64,8 @@ app.post('/api/v1/tours', (req, res) => {
     });
 });
 
+/* ***** UPDATE ***** */
+
 app.patch('/api/v1/tours/:id', (req, res) => {
     if (req.params.id * 1 > tours.length) {
         return res.status(404).json({
@@ -81,6 +79,22 @@ app.patch('/api/v1/tours/:id', (req, res) => {
         data: {
             tour: '<Updated tour here!>'
         }
+    })
+});
+
+/* ***** DELETE ***** */
+
+app.delete('/api/v1/tours/:id', (req, res) => {
+    if (req.params.id * 1 > tours.length) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid ID'
+        });
+    }
+
+    res.status(204).json({
+        status: 'success',
+        data: null
     })
 });
 
