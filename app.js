@@ -43,6 +43,31 @@ app.post('/api/v1/tours', (req, res) => {
     });
 });
 
+app.get('/api/v1/tours/:id', (req, res) => {
+    console.log(req.params);
+
+    // Recebe o parâmetro e guarda na variável.
+    const id = req.params.id * 1; // Truque para converter uma string (number-like) em um número.
+
+    // Recebe a tour contida no array das tours cujo ID seja igual ao ID passado por parâmetro (req.params).
+    const tour = tours.find(el => el.id === id);
+
+    // if (id > tours.length) {
+    if (!tour) {
+        return res.status(404).json({
+            status: 'failed',
+            message: 'Invalid ID'
+        });
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            tours: tour
+        }
+    });
+});
+
 const port = 3000;
 
 app.listen(port, () => {
