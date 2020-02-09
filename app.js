@@ -29,6 +29,8 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simpl
 
 /* ********** ROUTE HANDLERS ********** */
 
+/* Tours Route Handlers */
+
 const getAllTours = (req, res) => {
     console.log('Request time: ' + req.requestTime);
 
@@ -40,7 +42,7 @@ const getAllTours = (req, res) => {
             tours: tours
         }
     });
-}
+};
 
 const getTour = (req, res) => {
     console.log(req.params);
@@ -65,7 +67,7 @@ const getTour = (req, res) => {
             tours: tour
         }
     });
-}
+};
 
 const createTour = (req, res) => {
     // console.log(req.body);
@@ -82,7 +84,7 @@ const createTour = (req, res) => {
             }
         });
     });
-}
+};
 
 const updateTour = (req, res) => {
     if (req.params.id * 1 > tours.length) {
@@ -97,8 +99,8 @@ const updateTour = (req, res) => {
         data: {
             tour: '<Updated tour here!>'
         }
-    })
-}
+    });
+};
 
 const deleteTour = (req, res) => {
     if (req.params.id * 1 > tours.length) {
@@ -111,10 +113,49 @@ const deleteTour = (req, res) => {
     res.status(204).json({
         status: 'success',
         data: null
-    })
-}
+    });
+};
+
+/* Users Route Handlers */
+
+const getAllUsers = (req, res) => {
+    res.status(500).json({
+        status: 'error',
+        message: 'This route is not yet defined'
+    });
+};
+
+const getUser = (req, res) => {
+    res.status(500).json({
+        status: 'error',
+        message: 'This route is not yet defined'
+    });
+};
+
+const createUser = (req, res) => {
+    res.status(500).json({
+        status: 'error',
+        message: 'This route is not yet defined'
+    });
+};
+
+const updateUser = (req, res) => {
+    res.status(500).json({
+        status: 'error',
+        message: 'This route is not yet defined'
+    });
+};
+
+const deleteUser = (req, res) => {
+    res.status(500).json({
+        status: 'error',
+        message: 'This route is not yet defined'
+    });
+};
 
 /* ********** ROUTES ********** */
+
+/* Tour Routes */
 
 // app.get('/api/v1/tours', getAllTours);
 // app.get('/api/v1/tours/:id', getTour);
@@ -130,6 +171,23 @@ app.route('/api/v1/tours/:id')
     .get(getTour)
     .patch(updateTour)
     .delete(deleteTour);
+
+/* User Routes */
+
+// app.get('/api/v1/users', getAllUsers);
+// app.get('/api/v1/users/:id', getUser);
+// app.post('/api/v1/users', createUser);
+// app.patch('/api/v1/users/:id', updateUser);
+// app.delete('/api/v1/users/:id', deleteUser);
+
+app.route('/api/v1/users')
+    .get(getAllUsers)
+    .post(createUser);
+
+app.route('/api/v1/users/:id')
+    .get(getUser)
+    .patch(updateUser)
+    .delete(deleteUser);
 
 /* ********** SERVER STARTING CONFIG ********** */
 
