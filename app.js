@@ -2,7 +2,21 @@ const fs = require('fs');
 const express = require('express');
 
 const app = express();
+
+/* MIDDLEWARES */
+
 app.use(express.json()); // Middleware that allows some properties on the request.
+
+app.use((req, res, next) => {
+    console.log('Hello from the middleware!');
+    next();
+});
+
+app.use((req, res, next) => {
+    // Create a variable in the req property to save the time of each request.
+    req.requestTime = new Date().toISOString();
+    next();
+});
 
 // Read the file with the tours, converts to a javascript object and assign to the const 'tours'.
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
@@ -10,8 +24,11 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simpl
 /* FUNCTIONS */
 
 const getAllTours = (req, res) => {
+    console.log('Request time: ' + req.requestTime);
+
     res.status(200).json({
         status: 'success',
+        requestedAt: req.requestTime,
         results: tours.length,
         data: {
             tours: tours
@@ -110,8 +127,14 @@ const deleteTour = (req, res) => {
 
 // app.delete('/api/v1/tours/:id', deleteTour);
 
-app.route('/api/v1/tours').get(getAllTours).post(createTour);
-app.route('/api/v1/tours/:id').get(getTour).patch(updateTour).delete(deleteTour);
+app.route('/api/v1/tours')
+    .get(getAllTours)
+    .post(createTour);
+
+app.route('/api/v1/tours/:id')
+    .get(getTour)
+    .patch(updateTour)
+    .delete(deleteTour);
 
 /* PORT CONFIG */
 
