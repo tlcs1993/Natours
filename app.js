@@ -155,6 +155,9 @@ const deleteUser = (req, res) => {
 
 /* ********** ROUTES ********** */
 
+const tourRouter = express.Router();
+const userRouter = express.Router();
+
 /* Tour Routes */
 
 // app.get('/api/v1/tours', getAllTours);
@@ -163,14 +166,14 @@ const deleteUser = (req, res) => {
 // app.patch('/api/v1/tours/:id', updateTour);
 // app.delete('/api/v1/tours/:id', deleteTour);
 
-app.route('/api/v1/tours')
-    .get(getAllTours)
-    .post(createTour);
+tourRouter.route('/')
+.get(getAllTours)
+.post(createTour);
 
-app.route('/api/v1/tours/:id')
-    .get(getTour)
-    .patch(updateTour)
-    .delete(deleteTour);
+tourRouter.route('/:id')
+.get(getTour)
+.patch(updateTour)
+.delete(deleteTour);
 
 /* User Routes */
 
@@ -180,14 +183,17 @@ app.route('/api/v1/tours/:id')
 // app.patch('/api/v1/users/:id', updateUser);
 // app.delete('/api/v1/users/:id', deleteUser);
 
-app.route('/api/v1/users')
-    .get(getAllUsers)
-    .post(createUser);
+userRouter.route('/')
+.get(getAllUsers)
+.post(createUser);
 
-app.route('/api/v1/users/:id')
-    .get(getUser)
-    .patch(updateUser)
-    .delete(deleteUser);
+userRouter.route('/:id')
+.get(getUser)
+.patch(updateUser)
+.delete(deleteUser);
+
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
 
 /* ********** SERVER STARTING CONFIG ********** */
 
