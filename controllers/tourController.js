@@ -3,7 +3,7 @@ const fs = require('fs');
 // Read the file with the tours, converts to a javascript object and assign to the const 'tours'.
 const tours = JSON.parse(fs.readFileSync(`${ __dirname }/../dev-data/data/tours-simple.json`));
 
-// Check the ID automaticly.
+// Check the ID automatically.
 exports.checkID = (req, res, next, val) => {
     console.log(`Tour id is: ${ val }`);
 
@@ -47,10 +47,10 @@ exports.getAllTours = (req, res) => {
 exports.getTour = (req, res) => {
     console.log(req.params);
 
-    // Recebe o parâmetro e guarda na variável.
-    const id = req.params.id * 1; // Truque para converter uma string (number-like) em um número.
+    // Retrieve the parameter and save in the variable.
+    const id = req.params.id * 1; // Trick to convert a string (number-like) in a number.
 
-    // Recebe a tour contida no array das tours cujo ID seja igual ao ID passado por parâmetro (req.params).
+    // Retrieve the tour contained in the tours array with the ID equal to the ID passed as an argument (req.params).
     const tour = tours.find(el => el.id === id);
 
     // if (id > tours.length) {
@@ -87,7 +87,7 @@ exports.createTour = (req, res) => {
     });
 };
 
-// Change the values of a specific tour.
+// Change the values of a specific tour based on the ID.
 exports.updateTour = (req, res) => {
     res.status(200).json({
         status: 'success',
@@ -97,7 +97,7 @@ exports.updateTour = (req, res) => {
     });
 };
 
-// Delete an specific tour based on the ID.
+// Delete a specific tour based on the ID.
 exports.deleteTour = (req, res) => {
     res.status(204).json({
         status: 'success',

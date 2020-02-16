@@ -3,6 +3,7 @@ const fs = require('fs');
 // Read the file with the tours, converts to a javascript object and assign to the const 'tours'.
 const tours = JSON.parse(fs.readFileSync(`${ __dirname }/../dev-data/data/tours-simple.json`));
 
+// Retrieve all users.
 exports.getAllUsers = (req, res) => {
     res.status(500).json({
         status: 'error',
@@ -10,6 +11,7 @@ exports.getAllUsers = (req, res) => {
     });
 };
 
+// Retrieve an specific user based on the ID.
 exports.getUser = (req, res) => {
     res.status(500).json({
         status: 'error',
@@ -17,6 +19,7 @@ exports.getUser = (req, res) => {
     });
 };
 
+// Create a new user.
 exports.createUser = (req, res) => {
     res.status(500).json({
         status: 'error',
@@ -24,6 +27,7 @@ exports.createUser = (req, res) => {
     });
 };
 
+// Change the values of a specific tour based on the ID.
 exports.updateUser = (req, res) => {
     res.status(500).json({
         status: 'error',
@@ -31,6 +35,7 @@ exports.updateUser = (req, res) => {
     });
 };
 
+// Delete a specific user based on the ID.
 exports.deleteUser = (req, res) => {
     res.status(500).json({
         status: 'error',
