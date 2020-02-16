@@ -17,6 +17,19 @@ exports.checkID = (req, res, next, val) => {
     next();
 };
 
+// Check if the request's body contains the name and the price of the tour.
+exports.checkBody = (req, res, next) => {
+    if (!req.body.name || !req.body.price) {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'Missing name or price'
+        });
+    }
+
+    next();
+};
+
+// Retrieve all the tours.
 exports.getAllTours = (req, res) => {
     console.log('Request time: ' + req.requestTime);
 
@@ -30,6 +43,7 @@ exports.getAllTours = (req, res) => {
     });
 };
 
+// Retrieve a specific tour based on the ID.
 exports.getTour = (req, res) => {
     console.log(req.params);
 
@@ -55,6 +69,7 @@ exports.getTour = (req, res) => {
     });
 };
 
+// Create a new tour.
 exports.createTour = (req, res) => {
     // console.log(req.body);
     const newId = tours[tours.length - 1].id + 1;
@@ -72,6 +87,7 @@ exports.createTour = (req, res) => {
     });
 };
 
+// Change the values of a specific tour.
 exports.updateTour = (req, res) => {
     res.status(200).json({
         status: 'success',
@@ -81,6 +97,7 @@ exports.updateTour = (req, res) => {
     });
 };
 
+// Delete an specific tour based on the ID.
 exports.deleteTour = (req, res) => {
     res.status(204).json({
         status: 'success',
