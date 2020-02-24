@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Serve a static file (demonstration purpose).
-app.use(express.static(`${ __dirname }/public`));
+app.use(express.static(`${__dirname}/public`));
 
 // Logs a message each time the app has made a requisition (demonstration purpose).
 /* app.use((req, res, next) => {

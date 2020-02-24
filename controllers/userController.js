@@ -1,13 +1,15 @@
 const fs = require('fs');
 
 // Read the file with the tours, converts to a javascript object and assign to the const 'tours'.
-const tours = JSON.parse(fs.readFileSync(`${ __dirname }/../dev-data/data/tours-simple.json`));
+const tours = JSON.parse(
+    fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
+);
 
 // Retrieve all users.
 exports.getAllUsers = (req, res) => {
     res.status(500).json({
         status: 'error',
-        message: 'This route is not yet defined'
+        message: 'This route is not yet defined',
     });
 };
 
@@ -15,7 +17,7 @@ exports.getAllUsers = (req, res) => {
 exports.getUser = (req, res) => {
     res.status(500).json({
         status: 'error',
-        message: 'This route is not yet defined'
+        message: 'This route is not yet defined',
     });
 };
 
@@ -23,7 +25,7 @@ exports.getUser = (req, res) => {
 exports.createUser = (req, res) => {
     res.status(500).json({
         status: 'error',
-        message: 'This route is not yet defined'
+        message: 'This route is not yet defined',
     });
 };
 
@@ -31,7 +33,7 @@ exports.createUser = (req, res) => {
 exports.updateUser = (req, res) => {
     res.status(500).json({
         status: 'error',
-        message: 'This route is not yet defined'
+        message: 'This route is not yet defined',
     });
 };
 
@@ -39,6 +41,6 @@ exports.updateUser = (req, res) => {
 exports.deleteUser = (req, res) => {
     res.status(500).json({
         status: 'error',
-        message: 'This route is not yet defined'
+        message: 'This route is not yet defined',
     });
 };
