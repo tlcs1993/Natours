@@ -41,6 +41,18 @@ const tourSchema = new mongoose.Schema({
 // Create the tour model.
 const Tour = mongoose.model('Tour', tourSchema);
 
+const testTour = new Tour({
+    name: 'The Park Camper',
+    // rating: 4.7,
+    price: 997,
+});
+
+// Save the document to the database and log the document to the console if it works.
+testTour
+    .save()
+    .then((doc) => console.log(doc))
+    .catch((err) => console.log(`ERROR: ${err}`));
+
 // Show all the process environment variables.
 // console.log(process.env);
 
