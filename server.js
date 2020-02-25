@@ -1,9 +1,25 @@
+const mongoose = require('mongoose');
 const dotenv = require('dotenv'); // Module that loads environment variables from a '.env' file.
+const app = require('./app');
 
 // Loads the variables from the '.env' file contained in the path.
 dotenv.config({ path: './config.env' });
 
-const app = require('./app');
+// Replaces the password area on the database connection string with the real password. Both are in the variables file.
+const DB = process.env.DATABASE.replace(
+    '<PASSWORD>',
+    process.env.DATABASE_PASSWORD,
+);
+
+// Connect the database.
+mongoose
+    .connect(DB, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+        useUnifiedTopology: true,
+    })
+    .then(() => console.log('Database connection successful!'));
 
 // Show all the process environment variables.
 // console.log(process.env);
