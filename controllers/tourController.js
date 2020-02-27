@@ -1,35 +1,42 @@
 const Tour = require('./../models/tourModel');
 
 // Retrieve all the tours.
-exports.getAllTours = (req, res) => {
-    console.log(`Request time: ${req.requestTime}`);
+exports.getAllTours = async (req, res) => {
+    try {
+        const tours = await Tour.find();
 
-    res.status(200).json({
-        status: 'success',
-        requestedAt: req.requestTime,
-        // results: tours.length,
-        // data: {
-        //     tours: tours,
-        // },
-    });
+        res.status(200).json({
+            status: 'success',
+            results: tours.length,
+            data: {
+                tours: tours,
+            },
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err,
+        });
+    }
 };
 
 // Retrieve a specific tour based on the ID.
-exports.getTour = (req, res) => {
-    console.log(req.params);
+exports.getTour = async (req, res) => {
+    try {
+        const tour = await Tour.findById(req.params.id); // Same thing as 'Tour.findOne({ _id: req.params.id })'.
 
-    // Retrieve the parameter and save in the variable.
-    //const id = req.params.id * 1; // Trick to convert a string (number-like) in a number.
-
-    // Retrieve the tour contained in the tours array with the ID equal to the ID passed as an argument (req.params).
-    /* const tour = tours.find((el) => el.id === id);
-
-    res.status(200).json({
-        status: 'success',
-        data: {
-            tours: tour,
-        },
-    }); */
+        res.status(200).json({
+            status: 'success',
+            data: {
+                tour,
+            },
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err,
+        });
+    }
 };
 
 // Create a new tour.
