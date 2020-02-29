@@ -83,9 +83,19 @@ exports.updateTour = async (req, res) => {
 };
 
 // Delete a specific tour based on the ID.
-exports.deleteTour = (req, res) => {
-    res.status(204).json({
-        status: 'success',
-        data: null,
-    });
+exports.deleteTour = async (req, res) => {
+    try {
+        // Delete operations in a REST API don't save the content in a variable because there is no need to send data to the client.
+        await Tour.findByIdAndDelete(req.params.id);
+
+        res.status(204).json({
+            status: 'success',
+            data: null,
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err,
+        });
+    }
 };
