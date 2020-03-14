@@ -3,14 +3,34 @@ const Tour = require('./../models/tourModel');
 // Retrieve all the tours.
 exports.getAllTours = async (req, res) => {
     try {
-        /* Building the query */
+        console.log(req.query);
+
+        /***** BUILDING THE QUERY *****/
+
+        /* 1. Filtering */
         const queryObj = { ...req.query }; // Hard copying (Uses destructuring) the content of the query without keeping the reference to the original object.
+        
         const excludedFiles = ['page', 'sort', 'limit', 'fields']; // String of names to be ignored from the query.
+        
         excludedFiles.forEach((el) => delete queryObj[el]); // Delete the fields from the 'queryObj' wich the name is in the 'excludedFiles' string.
+        
+        console.log('Original: ', queryObj);
+        /* 2. Advanced filtering */
+        let queryStr = JSON.stringify(queryObj); // Converting the javascript object to a JSON string.
+        console.log('JSON.stringify: ', queryStr);
 
-        const query = Tour.find(queryObj); // Saving the query result in a constant without executing it.
+        // Replacing the third party operator using regular expressions so it can be used as a valid MongoDB operator (Ex.: gte -> $gte).
+        queryStr = queryStr.replace(
+            /\b(gte|gt|lte|lt)\b/g,
+            (match) => `$${match}`,
+        );
 
-        /* Executing the query */
+        console.log('JSON.parse: ', JSON.parse(queryStr)); // JSON.parse: Parse the data so it becomes a javascript object.
+
+        const query = Tour.find(JSON.parse(queryStr)); // Saving the query result in a constant without executing it.
+
+        /***** EXECUTING THE QUERY *****/
+
         const tours = await query;
 
         /* Sending a response */
