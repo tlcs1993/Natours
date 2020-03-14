@@ -3,8 +3,17 @@ const Tour = require('./../models/tourModel');
 // Retrieve all the tours.
 exports.getAllTours = async (req, res) => {
     try {
-        const tours = await Tour.find();
+        /* Building the query */
+        const queryObj = { ...req.query }; // Hard copying (Uses destructuring) the content of the query without keeping the reference to the original object.
+        const excludedFiles = ['page', 'sort', 'limit', 'fields']; // String of names to be ignored from the query.
+        excludedFiles.forEach((el) => delete queryObj[el]); // Delete the fields from the 'queryObj' wich the name is in the 'excludedFiles' string.
 
+        const query = Tour.find(queryObj); // Saving the query result in a constant without executing it.
+
+        /* Executing the query */
+        const tours = await query;
+
+        /* Sending a response */
         res.status(200).json({
             status: 'success',
             results: tours.length,

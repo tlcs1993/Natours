@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv'); // Module that loads environment variables from a '.env' file.
-const app = require('./app');
 
 // Loads the variables from the '.env' file contained in the path.
 dotenv.config({ path: './config.env' });
+
+const app = require('./app');
 
 // Replaces the password area on the database connection string with the real password. Both are in the variables file.
 const DB = process.env.DATABASE.replace(
