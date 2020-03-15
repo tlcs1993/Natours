@@ -7,17 +7,17 @@ exports.getAllTours = async (req, res) => {
 
         /***** BUILDING THE QUERY *****/
 
-        /* 1. Filtering */
+        /* 1.1. Filtering */
         const queryObj = { ...req.query }; // Hard copying (Uses destructuring) the content of the query without keeping the reference to the original object.
-        
+
         const excludedFiles = ['page', 'sort', 'limit', 'fields']; // String of names to be ignored from the query.
-        
+
         excludedFiles.forEach((el) => delete queryObj[el]); // Delete the fields from the 'queryObj' wich the name is in the 'excludedFiles' string.
-        
-        console.log('Original: ', queryObj);
-        /* 2. Advanced filtering */
-        let queryStr = JSON.stringify(queryObj); // Converting the javascript object to a JSON string.
-        console.log('JSON.stringify: ', queryStr);
+
+        /* 1.2. Advanced filtering */
+        let queryStr = JSON.stringify(queryObj); // EXPLANATION: JSON.stringify is used to convert a javascript object in a JSON string.
+
+        console.log(queryStr);
 
         // Replacing the third party operator using regular expressions so it can be used as a valid MongoDB operator (Ex.: gte -> $gte).
         queryStr = queryStr.replace(
@@ -25,9 +25,19 @@ exports.getAllTours = async (req, res) => {
             (match) => `$${match}`,
         );
 
-        console.log('JSON.parse: ', JSON.parse(queryStr)); // JSON.parse: Parse the data so it becomes a javascript object.
+        // EXPLANATION: JSON.parse is used to parse the data so it becomes a javascript object.
 
-        const query = Tour.find(JSON.parse(queryStr)); // Saving the query result in a constant without executing it.
+        let query = Tour.find(JSON.parse(queryStr)); // Saving the query result in a constant without executing it.
+
+        /* 2. Sorting */
+
+        if (req.query.sort) {
+            // LEARNING: Syntax to sort by more than one criteria in Mongoose is 'sort(arg1 arg2)'. However in the the query string the arguments are splitted by a comma.
+
+            const sortBy = req.query.sort.split(',').join(' ');
+
+            query = query.sort(sortBy);
+        }
 
         /***** EXECUTING THE QUERY *****/
 
