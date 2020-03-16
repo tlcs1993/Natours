@@ -9,13 +9,13 @@ exports.getAllTours = async (req, res) => {
 
         /* 1.1. Filtering */
         const queryObj = { ...req.query }; // Hard copying (Uses destructuring) the content of the query without keeping the reference to the original object.
-
         const excludedFiles = ['page', 'sort', 'limit', 'fields']; // String of names to be ignored from the query.
-
         excludedFiles.forEach((el) => delete queryObj[el]); // Delete the fields from the 'queryObj' wich the name is in the 'excludedFiles' string.
 
         /* 1.2. Advanced filtering */
-        let queryStr = JSON.stringify(queryObj); // EXPLANATION: JSON.stringify is used to convert a javascript object in a JSON string.
+        let queryStr = JSON.stringify(queryObj); 
+
+        // USED FOR WHAT: JSON.stringify is used to convert a javascript object in a JSON string.
 
         console.log(queryStr);
 
@@ -25,18 +25,27 @@ exports.getAllTours = async (req, res) => {
             (match) => `$${match}`,
         );
 
-        // EXPLANATION: JSON.parse is used to parse the data so it becomes a javascript object.
+        // USED FOR WHAT: JSON.parse is used to parse the data so it becomes a javascript object.
 
         let query = Tour.find(JSON.parse(queryStr)); // Saving the query result in a constant without executing it.
 
         /* 2. Sorting */
 
         if (req.query.sort) {
-            // LEARNING: Syntax to sort by more than one criteria in Mongoose is 'sort(arg1 arg2)'. However in the the query string the arguments are splitted by a comma.
-
+            // EXPLANATION: Syntax to sort by more than one criteria in Mongoose is 'sort(arg1 arg2)'. However in the the query string the arguments are splitted by a comma.
             const sortBy = req.query.sort.split(',').join(' ');
-
             query = query.sort(sortBy);
+        } else {
+            query = query.sort('-createdAt'); // Default sorting criteria.
+        }
+
+        /* 3. Limiting fields */
+        if (req.query.fields) {
+            const fields = req.query.fields.split(',');
+            query = query.select(fields);
+        } else {
+            // EXPLANATION: Select everything except the field '__v' from the MongoDB object. It has internal use only then isn't needed.
+            query = query.select('-__v');
         }
 
         /***** EXECUTING THE QUERY *****/
