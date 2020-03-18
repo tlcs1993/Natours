@@ -1,5 +1,13 @@
 const Tour = require('./../models/tourModel');
 
+// Aliasing middleware to the five best cheapest tours.
+exports.aliasTopTours = (req, res, next) => {
+    req.query.limit = '5';
+    req.query.sort = '-ratingsAverage,price';
+    req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
+    next();
+};
+
 // Retrieve all the tours.
 exports.getAllTours = async (req, res) => {
     try {
