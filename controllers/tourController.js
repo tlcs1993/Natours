@@ -13,7 +13,7 @@ exports.getAllTours = async (req, res) => {
         excludedFiles.forEach((el) => delete queryObj[el]); // Delete the fields from the 'queryObj' wich the name is in the 'excludedFiles' string.
 
         /* 1.2. Advanced filtering */
-        let queryStr = JSON.stringify(queryObj); 
+        let queryStr = JSON.stringify(queryObj);
 
         // USED FOR WHAT: JSON.stringify is used to convert a javascript object in a JSON string.
 
@@ -32,7 +32,7 @@ exports.getAllTours = async (req, res) => {
         /* 2. Sorting */
 
         if (req.query.sort) {
-            // EXPLANATION: Syntax to sort by more than one criteria in Mongoose is 'sort(arg1 arg2)'. However in the the query string the arguments are splitted by a comma.
+            // Syntax to sort by more than one criteria in Mongoose is 'sort(arg1 arg2)'. However in the the query string the arguments are splitted by a comma.
             const sortBy = req.query.sort.split(',').join(' ');
             query = query.sort(sortBy);
         } else {
@@ -44,8 +44,32 @@ exports.getAllTours = async (req, res) => {
             const fields = req.query.fields.split(',');
             query = query.select(fields);
         } else {
-            // EXPLANATION: Select everything except the field '__v' from the MongoDB object. It has internal use only then isn't needed.
+            // Select everything except the field '__v' from the MongoDB object. It has internal use only then isn't needed.
             query = query.select('-__v');
+        }
+
+        /* 4. Pagination */
+
+        // Set the default starting page.
+        const page = req.query.page * 1 || 1;
+
+        // Set the limit of items by page.
+        const limit = req.query.limit * 1 || 100;
+
+        // Set the items who should not be showed in the chosen page because it may belong in previous pages.
+        const skip = (page - 1) * limit;
+
+        // Skip the items before the ones to be shown in the chosen page and set the number of documents by page.
+        query = query.skip(skip).limit(limit);
+
+        if (req.query.page) {
+            // Return a promise with the number of documents.
+            const numTour = await Tour.countDocuments();
+
+            // Check if the number of documents skipped are greater or equal than the number of the documents wich means that the page does not exist.
+            if (skip >= numTour) {
+                throw new Error('This page does not exist');
+            }
         }
 
         /***** EXECUTING THE QUERY *****/
@@ -53,6 +77,7 @@ exports.getAllTours = async (req, res) => {
         const tours = await query;
 
         /* Sending a response */
+
         res.status(200).json({
             status: 'success',
             results: tours.length,
