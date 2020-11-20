@@ -12,7 +12,7 @@ app.use(express.json());
 
 // HTTP request logger middleware for node.js. Will only log if it's in the development environment.
 if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'));
+  app.use(morgan('dev'));
 }
 
 // Serve a static file (demonstration purpose).
@@ -26,8 +26,8 @@ app.use(express.static(`${__dirname}/public`));
 
 // Create a variable in the req property to save the time of each request (demonstration purpose).
 app.use((req, res, next) => {
-    req.requestTime = new Date().toISOString();
-    next();
+  req.requestTime = new Date().toISOString();
+  next();
 });
 
 /* ***** ROUTES ***** */

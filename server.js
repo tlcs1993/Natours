@@ -8,19 +8,19 @@ const app = require('./app');
 
 // Replaces the password area on the database connection string with the real password. Both are in the variables file.
 const DB = process.env.DATABASE.replace(
-    '<PASSWORD>',
-    process.env.DATABASE_PASSWORD,
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD,
 );
 
 // Connect the database.
 mongoose
-    .connect(DB, {
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        useFindAndModify: false,
-        useUnifiedTopology: true,
-    })
-    .then(() => console.log('Database connection successful!'));
+  .connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('Database connection successful!'));
 
 // Show all the process environment variables.
 // console.log(process.env);
@@ -29,5 +29,5 @@ mongoose
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-    console.log(`App running on port ${port}...`);
+  console.log(`App running on port ${port}...`);
 });
