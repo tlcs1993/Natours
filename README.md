@@ -1,6 +1,6 @@
 # Natours
 
-This project is tutored by Jonas Schmedtmann on his Udemy's course ["Node.js, Express, MongoDB & More: The Complete Bootcamp"](https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/). This is a vacation app that book tours in a diverse .
+In this application the user can hire adventurous tours in the most diverse environments registered in the database. This project is tutored by Jonas Schmedtmann on his Udemy's course ["Node.js, Express, MongoDB & More: The Complete Bootcamp"](https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/).
 
 ## :toolbox: Built With
 
@@ -11,13 +11,38 @@ This project is tutored by Jonas Schmedtmann on his Udemy's course ["Node.js, Ex
 
 ## :rocket: How To Start
 
-1. Clone the repo
+### 1. Requirements
+
+You need to have installed:
+
+- Node.js
+- MongoDB
+
+### 2. Installation
+
+Clone the repo
 
 ```sh
-  $ git clone https://github.com/thiagocrux/the-burger-builder.git
+  $ git clone https://github.com/thiagocrux/natours.git
 ```
 
-2. Open the HTML file on you browser
+Install the dependencies
+
+```sh
+  $ npm install
+```
+
+### 3. Starting The Server
+
+Execute the following command on the terminal
+
+```sh
+  $ npm run start
+```
+
+### 4. Starting the Database
+
+????????????????????????????
 
 ## :camera: Screenshots
 
