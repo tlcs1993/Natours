@@ -32,6 +32,17 @@ Install the dependencies
   $ npm install
 ```
 
+Insert the database configuration on the _config.env_ file as instructed below
+
+```sh
+  NODE_ENV=development
+  PORT= # Server port goes here...
+  DATABASE= # Connection string from MongoDB Atlas goes here...
+  DATABASE_PASSWORD= # Password of your database goes here...
+```
+
+_Obs.: Its important to replace the password in the connection string for \<PASSWORD>._
+
 ### 3. Starting The Server
 
 Execute the following command on the terminal
@@ -39,10 +50,6 @@ Execute the following command on the terminal
 ```sh
   $ npm run start
 ```
-
-### 4. Starting the Database
-
-????????????????????????????
 
 ## :camera: Screenshots
 
